@@ -33,7 +33,7 @@ const operations = {
         if(b === "0"){
             return "ERROR";
         }
-        return +a / +b;
+        return (+a / +b).toFixed(8);
     }
 
 }
@@ -111,9 +111,13 @@ function operate(button){
         operator = null;
         numCurrent = "0";
         numBefore = null;
+    }else if(input === "."){
+        if(numCurrent.slice(-1) !== ".") {
+            numCurrent+=".";
+        }
     }
-
-
+    
+   
 
 }
 
