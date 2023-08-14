@@ -78,7 +78,7 @@ function operate(button){
     }else if(input === "clear"){
         numBefore = null;
         numCurrent = "0";
-        operator = null;or
+        operator = null;
     }else if(input === "del"){
         if(numCurrent.length <= 1){
             numCurrent = "0";
@@ -107,7 +107,10 @@ function operate(button){
             
         }
         operator = null;
-        
+    }else if(input === "clear"){
+        operator = null;
+        numCurrent = "0";
+        numBefore = null;
     }
 
 
