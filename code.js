@@ -6,7 +6,8 @@ let dispalayValue = null;
 
 const btns = document.querySelectorAll("button");
 btns.forEach((button)=>{
-    button.addEventListener("click", calculator);
+    button.addEventListener("mousedown", calculator);
+    button.addEventListener("mouseup", removeBtnLook);
 });
 
 const display = {
@@ -27,7 +28,7 @@ const operations = {
         return +a - +b;
     },
     "*": function(a,b){
-        return +a * +b;
+        return (+a * +b);
     },
     "/":function(a,b){
         if(b === "0"){
@@ -112,30 +113,24 @@ function operate(button){
         numCurrent = "0";
         numBefore = null;
     }else if(input === "."){
-        if(numCurrent.slice(-1) !== ".") {
+        if(!numCurrent.includes(".")) {
             numCurrent+=".";
         }
     }
-    
-   
-
 }
+
+function addBtnLook(btn){
+    btn.classList.add("btn-pressed");
+  
+}
+
+function removeBtnLook(){
+    this.classList.remove("btn-pressed");
+}
+
 
 function calculator(){
     operate(this);
     updateDisplay(this);
-    
-    console.table(["before: " +numBefore, "op: "+ operator, "current:" + numCurrent]);
-    
-
+    addBtnLook(this);
 }
-
-// function operate(num1, operator, num2){
-    
-//     console.log(operations[operator](num1,num2))
-// }
-
-
-
-operate(10, "/", 5);
-
