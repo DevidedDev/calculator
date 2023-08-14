@@ -30,6 +30,9 @@ const operations = {
         return +a * +b;
     },
     "/":function(a,b){
+        if(b === "0"){
+            return "ERROR";
+        }
         return +a / +b;
     }
 
@@ -39,14 +42,11 @@ const operations = {
 
 
 function updateDisplay(button){
-    if( !isNaN(button.innerText)){
-        display.current.innerText += button.innerText;
-    }
-    
-    if(button.innerText in operations ){
-        display.cache.innerText = `${numBefore} ${operator}`  ;
+        display.current.innerText = numCurrent;
+        const cacheDisplayText = (numBefore? numBefore : "") + " " + (operator? operator: "") ;
+        console.log(cacheDisplayText);
+        display.cache.innerText = cacheDisplayText;
 
-    }
     
     console.log("hi")
 }
@@ -56,29 +56,29 @@ function operate(button){
     
     if (input in operations){
         console.log("pressedOp")
-        
-        if(operator === null){
-           
-            if(!numBefore){
+        if(!(numBefore === "ERROR" && numCurrent === "0")){
+            if(operator === null){
+            
+                if(!numBefore){
+                    operator = input;
+                    numBefore = numCurrent;
+                }else if(numCurrent === "0"){
+                    operator = input;
                 operator = input;
-                numBefore = numCurrent;
-            }else if(numCurrent === "0"){
-                operator = input;
-               operator = input;
-            }else{
-                numBefore = numCurrent;
-            }
+                }else{
+                    numBefore = numCurrent;
+                }
 
-        }else{
-        console.log(operator);
-        numBefore = operations[operator](numBefore, numCurrent);
-        operator = input;
-        }
+            }else{
+            numBefore = operations[operator](numBefore, numCurrent);
+            operator = input;
+            }
         numCurrent = "0";
+        }else{ return}
     }else if(input === "clear"){
         numBefore = null;
         numCurrent = "0";
-        operator = null;
+        operator = null;or
     }else if(input === "del"){
         if(numCurrent.length <= 1){
             numCurrent = "0";
@@ -97,9 +97,17 @@ function operate(button){
             numCurrent += input;
         }
     }else if(input === "="){
+        if(operator){
         numBefore = operations[operator](numBefore, numCurrent);
-        numCurrent ="0";
+
+        }
+        console.log(numBefore);
+        if(numBefore !== "ERROR"){
+            numCurrent ="0";
+            
+        }
         operator = null;
+        
     }
 
 
